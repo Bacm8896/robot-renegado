@@ -5,6 +5,12 @@ Controlas al Operador, recoges chatarra, construyes defensas, produces una flota
 
 > Proyecto personal en desarrollo. Todo el arte es procedural (dibujado por código), con *sprites* PNG opcionales que sustituyen al dibujo cuando existen.
 
+![Menú principal](docs/menu.png)
+
+| Prólogo y diálogos | Base Central (modo comandante) |
+|---|---|
+| ![Prólogo](docs/prologo.png) | ![Base Central](docs/base-central.png) |
+
 ## Características
 
 - **Tres capas de juego:** combate en tiempo real (disparo, golpe y *dash*), construcción por rejilla (pilones, muros y torretas con mejoras y especializaciones) y gestión RTS de la base con selección de unidades.
