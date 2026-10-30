@@ -68,6 +68,16 @@ smoke_test.py           prueba de humo sin GUI
 
 ~33 000 líneas de Python.
 
+## ¿Lo jugaste? ¡Cuéntame!
+
+Busco opiniones de jugadores: qué te divirtió, qué te aburrió y qué le añadirías.
+Abre un [*issue*](../../issues/new/choose) (🐞 algo falla o 💡 idea o mejora); no hace falta saber programar.
+Si quieres programar algo, mira la [guía para contribuir](CONTRIBUTING.md).
+
+## Licencia
+
+[GPL-3.0](LICENSE): puedes jugarlo, estudiarlo y modificarlo; si publicas una versión basada en este juego, también debe ser libre y mencionar el original.
+
 ## Autor
 
 **Byron Carvajal** · [LinkedIn](https://www.linkedin.com/in/byroncarvajalia) · [GitHub @Bacm8896](https://github.com/Bacm8896)
