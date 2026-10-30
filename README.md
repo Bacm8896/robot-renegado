@@ -32,6 +32,10 @@ python tools/balance_sim.py   # simulador de balance
 
 ## Jugar
 
+**Descarga para Windows (sin instalar Python):** [bacm8896.itch.io/robot-renegado](https://bacm8896.itch.io/robot-renegado)
+
+Desde el código:
+
 ```
 pip install -r requirements.txt
 python main.py
