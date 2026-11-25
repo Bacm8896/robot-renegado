@@ -72,7 +72,12 @@ class DroneSelectionMixin:
         return len(drones)
 
     def order_focus(self, target):
-        """Foco prioritario: los seleccionados persiguen y atacan a `target` hasta destruirlo."""
+        """Foco prioritario: los seleccionados persiguen y atacan a `target` hasta destruirlo. Un blanco con escudo activo no
+        admite foco (el escudo absorbe todo): aviso y tono de error."""
+        if getattr(target, "shielded", False):
+            audio.play("error")
+            self.ally.say("Objetivo blindado: destruye antes su Generador de Escudo.", 3, sender="SISTEMA")
+            return 0
         drones = self.selected_drones()
         for d in drones:
             d.give_focus(target)

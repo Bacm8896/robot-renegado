@@ -2892,6 +2892,22 @@ assert all(d_.focus is e19 for d_ in (d19, b19)) and a19.focus_marker[0] is e19
 game.machine.draw(game.screen)
 step(game, 2)
 assert d19.order.distance_to(e19.pos) < 1                                                # el punto sigue al blanco
+# una orden de mover cancela el foco: van al nuevo punto y ya no persiguen al blanco
+click19(3, (640, 520), up=False)
+step(game, 2)
+assert all(d_.focus is None for d_ in (d19, b19)) and d19.order.distance_to(e19.pos) > 50
+# foco de nuevo; si el blanco se blinda, se suelta el foco
+click19(3, a19.camera.to_screen(e19.pos), up=False)
+assert d19.focus is e19
+e19.shielded = True
+step(game, 2)
+assert d19.focus is None and b19.focus is None
+# un blanco con escudo activo no admite foco: tono de error y nadie lo persigue
+t19 = _t19.monotonic()
+assert a19.order_focus(e19) == 0 and _au19.played("error", t19) and d19.focus is None
+e19.shielded = False
+click19(3, a19.camera.to_screen(e19.pos), up=False)
+assert d19.focus is e19
 e19.take_damage(10 ** 6)
 step(game, 2)
 assert d19.focus is None and d19.order_arrived                                           # objetivo caído: guardia

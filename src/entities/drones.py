@@ -112,23 +112,29 @@ class FactoryDrone(_Drone):
 
     # --- Attack-Move (asedio) ---
     def give_order(self, point, route=()):
-        """Marcha hacia `point` atacando lo hostil que encuentre (enemigos y estructuras). Al llegar, se queda de guardia allí."""
+        """Marcha hacia `point` atacando lo hostil que encuentre (enemigos y estructuras). Al llegar, se queda de guardia allí.
+        Una orden nueva cancela el foco anterior."""
         self.order, self.route = Vector2(point), [Vector2(p) for p in route]
         self.order_arrived, self.route_timer = False, 2.0
+        self.focus = None
 
     def give_focus(self, target):
         """Foco prioritario: persigue a `target` y lo ataca antes que a nada hasta destruirlo; después, guardia allí."""
-        self.focus = target
         self.give_order(target.pos)
+        self.focus = target
 
     def _track_focus(self):
-        """El punto de la orden sigue al blanco del foco; al caer el blanco, el dron queda de guardia donde está."""
+        """El punto de la orden sigue al blanco del foco; al caer el blanco, el dron queda de guardia donde está. Si el blanco
+        se blinda (escudo activo), el foco se suelta: el dron sigue con su orden atacando lo que alcance."""
         f = self.focus
         if f is None:
             return
         if not f.alive() or getattr(f, "dead", False):
             self.focus = None
             self.order, self.order_arrived = Vector2(self.pos), True
+            return
+        if getattr(f, "shielded", False):
+            self.focus = None
             return
         self.order, self.order_arrived = Vector2(f.pos), False
 
