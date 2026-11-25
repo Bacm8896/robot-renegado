@@ -278,7 +278,7 @@ class ReconDrone(FactoryDrone):
 
 
 class AttackDrone(FactoryDrone):
-    """F2 Dron de Asalto (aéreo): busca al enemigo más cercano a su Fábrica y lo hostiga con un láser continuo (12 de daño
+    """F2 Dron de Asalto (aéreo): busca al enemigo más cercano a su Fábrica y lo hostiga con un láser continuo (16 de daño
     cada 0,5 s, alcance 190). Al ser aéreo, el contacto de los enemigos terrestres no le hace nada; los proyectiles sí."""
     kind = "attack"
     COLOR = (255, 100, 100)

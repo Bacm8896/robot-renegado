@@ -459,7 +459,7 @@ TOOLTIPS = {
 # Costes de la Fase 5 (menú de producción de la Fábrica y del Búnker): Asalto 40, Explorador 25, Bombardero 75, Soldado 50.
 #   F1 Explorador (aéreo, logística con riesgo): vuela a la chatarra, la carga y la lleva al Centro de Control; si lo derriban
 #      en tránsito la suelta. Tope por mapa EXPLORER_CAP. Sigue revelando 400 px de niebla.
-#   F2 Dron de Asalto (aéreo): láser continuo, 12 de daño cada 0,5 s, alcance 190.
+#   F2 Dron de Asalto (aéreo): láser continuo, 16 de daño cada 0,5 s, alcance 190.
 #   F3 Dron Bombardero (aéreo): sobrevuela enemigos agrupados y suelta bombas en caída libre (75 de daño, radio 60, cada 2,5 s).
 #   F4 Soldado Dron (terrestre): rifle de repetición, 15 de daño cada 0,4 s, alcance 160, armadura 3.
 DRONE_TYPES = {
