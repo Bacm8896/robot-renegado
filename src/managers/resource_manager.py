@@ -235,8 +235,8 @@ class CampaignRun:
                 world = scene.world
                 self.drone_data = self.serialize_drones(world.drones)
                 self.drone_origin = self.layout_data["control_center"]
-                factory = next((f for f in world.factories if f.alive()), None)
-                self.factory_queue_data = self.serialize_factory_queue(factory)
+                factories = [f for f in world.factories if f.alive()]          # todas: lo pagado en cada una viaja
+                self.factory_queue_data = self.serialize_factory_queue(factories)
         self._timer = 0.0
         self._clear_runtime()
 

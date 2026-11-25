@@ -440,20 +440,24 @@ def make_siege_state(Act2State):
         def update(self, dt):
             w = self.world
             self.camera.tick(dt)
-            combat.FX.update(dt)
+            frozen = self.paused and not self.fail_menu and self.end_timer is None   # pausa táctica: FX y carteles quietos
+            if not frozen:
+                combat.FX.update(dt)
             self.dialogue.update(dt)
             cursor = self.camera.to_world(pygame.mouse.get_pos())
             self.update_bunker(dt, None, cursor)
             if combat.FX.consume_shake():
                 self.camera.shake()
-            if self.phase_banner is not None:
+            if self.phase_banner is not None and not frozen:
                 self.phase_banner["timer"] -= dt
                 if self.phase_banner["timer"] <= 0:
                     self.phase_banner = None
-            if self.order_marker is not None:
+            if self.order_marker is not None and not frozen:
                 self.order_marker[1] -= dt
                 if self.order_marker[1] <= 0:
                     self.order_marker = None
+            if not frozen:
+                self.tick_selection(dt)                                     # el marcador del foco de ataque caduca
             if self.fail_menu:
                 return
             if self.end_timer is not None:

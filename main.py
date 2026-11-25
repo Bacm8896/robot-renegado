@@ -1029,16 +1029,18 @@ class Act2State(DroneSelectionMixin, ConstructionMixin, State):
     def update(self, dt):
         w = self.world
         self.camera.tick(dt)
-        combat.FX.update(dt)
+        if not self.paused:                                # en pausa táctica los efectos y marcadores se congelan
+            combat.FX.update(dt)
         self.dialogue.update(dt)
         self.update_bunker(dt, None, self.camera.to_world(pygame.mouse.get_pos()))
         if combat.FX.consume_shake():
             self.camera.shake()
-        if self.order_marker is not None:
+        if self.order_marker is not None and not self.paused:
             self.order_marker[1] -= dt
             if self.order_marker[1] <= 0:
                 self.order_marker = None
-        self.tick_selection(dt)
+        if not self.paused:
+            self.tick_selection(dt)
         if self.reward_popup and not self.paused:          # el cartel sigue contando aunque la partida esté acabando
             self.reward_popup["timer"] -= dt
             if self.reward_popup["timer"] <= 0:

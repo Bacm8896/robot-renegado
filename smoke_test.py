@@ -2917,6 +2917,26 @@ assert a19.selected_drones() == []
 click19(1, (40, 400))                                                                     # clic en vacío: nada seleccionado
 assert a19.selected_drones() == []
 assert a19.issue_attack_move(a19.camera.to_world((300, 200))) == 2
+# --- pausa táctica: el marcador de orden y el del foco de ataque no caducan mientras dura
+a19.order_marker = [Vector2(300, 300), 1.0]
+a19.focus_marker = [d19, 1.0]
+a19.paused = True
+step(game, 30)
+assert a19.order_marker[1] == 1.0 and a19.focus_marker[1] == 1.0
+a19.paused = False
+step(game, 6)
+assert a19.order_marker[1] < 1.0 and a19.focus_marker[1] < 1.0
+# --- fin de mapa con dos Fábricas: lo encargado en ambas viaja al siguiente mapa
+assert build(a19, "fabrica", (840, 720))
+f19b = [f_ for f_ in a19.world.factories if f_ is not f19][0]
+f19b.build_left = 0
+step(game, 1)
+f19.production_queue[:] = ["attack"]
+f19b.production_queue[:] = ["bomber", "trooper"]
+run19 = _CR("map_1_infiltration")
+run19.on_map_complete(True, a19)
+kinds19 = sorted((e_["slot"], e_["drone_type"]) for e_ in run19.factory_queue_data)
+assert {k_ for _, k_ in kinds19} >= {"attack", "bomber", "trooper"} and {sl_ for sl_, _ in kinds19} == {0, 1}, kinds19
 game.machine.transition(GameState.MENU)
 
 # =============================================================================
