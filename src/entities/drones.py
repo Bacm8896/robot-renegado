@@ -42,7 +42,7 @@ class _Drone(GameSprite):
     def display_name(self):
         return self.stats.get("name", self.kind)
 
-    def take_damage(self, amount, direction=None):
+    def take_damage(self, amount, direction=None, continuous_dt=None):
         self.hp -= amount
         self.flash()
         if self.hp <= 0:
@@ -97,11 +97,16 @@ class FactoryDrone(_Drone):
         """Capa aérea (UNITS "layer": "air"): inmune al daño de contacto de los enemigos terrestres."""
         return self.stats.get("layer") == "air"
 
-    def take_damage(self, amount, direction=None):
-        """Proyectiles, obuses y torretas dañan a todos; la armadura plana (Soldado Dron) se resta de cada impacto."""
+    def take_damage(self, amount, direction=None, continuous_dt=None):
+        """Proyectiles, obuses y torretas dañan a todos; la armadura plana (Soldado Dron) se resta de cada impacto.
+        `continuous_dt`: daño continuo de este fotograma (mordida de Scout = dps * dt): la armadura se descuenta por segundo
+        (mínimo 1 HP/s), como en el Operador; si no, el mínimo de 1 por fotograma la convertiría en 60 HP/s."""
         armor = self.stats.get("armor", 0)
         if armor:
-            amount = max(1.0, amount - armor)
+            if continuous_dt is not None:
+                amount = max(continuous_dt, amount - armor * continuous_dt)
+            else:
+                amount = max(1.0, amount - armor)
         return super().take_damage(amount, direction)
 
     def _nearest_target(self, world):
@@ -217,8 +222,8 @@ class ReconDrone(FactoryDrone):
     def reveal_radius(self):
         return self.stats["vision_range"]
 
-    def take_damage(self, amount, direction=None):
-        dead = super().take_damage(amount, direction)
+    def take_damage(self, amount, direction=None, continuous_dt=None):
+        dead = super().take_damage(amount, direction, continuous_dt)
         if dead and self.carried_scrap > 0:        # penalización: la carga cae al suelo
             value, self.carried_scrap = self.carried_scrap, 0
             if self.on_drop:

@@ -8321,6 +8321,11 @@ for _ in range(30):
     combat.resolve_enemy_allies(foes_i, drones_i, 1 / 60)
 assert abs((dr_i.max_hp - dr_i.hp) - 4.0) < 1e-6                                  # 0,5 s a 8 HP/s
 assert air_i.hp == air_i.max_hp
+from src.entities.drones import TrooperDrone as _TrI
+tr_i = _TrI(Vector2(500, 500), _ds3("trooper"), home=Vector2(500, 500))           # terrestre con armadura 3
+for _ in range(60):
+    combat.resolve_enemy_allies(foes_i, pygame.sprite.Group(tr_i), 1 / 60)
+assert abs((tr_i.max_hp - tr_i.hp) - 5.0) < 1e-6, tr_i.max_hp - tr_i.hp             # 8 - 3 = 5 HP/s (antes 60 HP/s)
 # --- mordida continua contra una estructura que le cierra el paso (y el muro Electrificado descarga 1 vez por segundo)
 wr_w = WorldRefs()
 wall_i = Building("wall", (600, 400))

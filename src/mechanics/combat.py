@@ -259,7 +259,7 @@ def resolve_enemy_allies(enemies, drones, dt=None):
         if enemy.damage <= 0 or not victims:
             continue
         if _continuous(enemy, dt):
-            victims[0].take_damage(enemy.contact_damage(dt))
+            victims[0].take_damage(enemy.contact_damage(dt), continuous_dt=dt)
         elif enemy.attack_timer <= 0:
             victims[0].take_damage(enemy.damage)
             enemy.attack_timer = enemy.attack_cooldown
